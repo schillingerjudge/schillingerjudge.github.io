@@ -1,0 +1,85 @@
+* { margin: 0 }
+body { font: 32px/1.2 sans-serif }
+.deck > .slide > section { width: 1920px !important; height: 1080px !important; overflow: hidden !important; box-sizing: border-box !important; position: relative; isolation: isolate }
+:where(.deck) :where(aside, noscript, section[hidden]) { display: none !important }
+:where(.deck) h1 { font-size: 96px; font-weight: 600 }
+:where(.deck) h2 { font-size: 64px; font-weight: 600 }
+:where(.deck) h3 { font-size: 44px; font-weight: 600 }
+:where(.deck) :where(p, li, h1, h2, h3, td, th) { overflow-wrap: break-word; text-wrap: pretty }
+:where(.deck) table { width: 100%; border-collapse: separate; border-spacing: 0; border: solid #0003; border-width: 2px 0 0 2px }
+:where(.deck) :where(th, td) { padding: .35em .6em; text-align: left; border: solid #0003; border-width: 0 2px 2px 0 }
+:where(.deck) :where(x-shape, x-icon, x-embed) { display: block }
+:where(.deck) img { object-fit: cover }
+:where(.deck) x-shape { box-sizing: border-box }
+:where(.deck) x-shape[kind="ellipse"] { border-radius: 50% }
+:where(.deck) x-icon { flex: none }
+:where(.deck) x-icon > svg { display: block; width: 100%; height: 100% }
+:where(.deck) x-connector { display: block; position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none }
+:where(.deck) x-connector > svg { position: absolute; left: 0; top: 0; overflow: visible }
+:where(.deck[data-inline]) section * { box-sizing: border-box }
+.deck [data-fix~="under"] { z-index: -1 !important }
+.deck [data-fix~="host"] { position: relative !important }
+.deck [data-fix~="shrink"] { min-height: 0 !important }
+.deck [data-fix~="wrap"] { text-wrap: wrap }
+.deck x-connector[data-drawn] { border: 0 !important }
+html { background: #000; color-scheme: dark; -webkit-text-size-adjust: 100%; text-size-adjust: 100% }
+body { background: #000 }
+html.js, .js body { height: 100%; overflow: hidden; overscroll-behavior: none }
+.js .stage { position: fixed; inset: 0; overflow: hidden; touch-action: pan-y pinch-zoom }
+.js .deck { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; margin: -540px 0 0 -960px; transform: scale(var(--s, .5)); opacity: 0; transition: opacity .25s ease-out }
+.js .deck.is-ready { opacity: 1 }
+.js .slide { position: absolute; inset: 0; display: none }
+.js .slide.is-on { display: block }
+.js .slide.is-leaving { z-index: 2; pointer-events: none }
+.js .stage.is-idle { cursor: none }
+.is-preparing, .is-preparing * { cursor: progress !important }
+.ui { position: fixed; z-index: 10; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%); display: none; align-items: center; gap: 2px; padding: 4px; border-radius: 999px; background: rgba(22, 22, 24, .8); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08); color: #e6e6e8; font: 500 13px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-variant-numeric: tabular-nums; white-space: nowrap; transition: opacity .3s ease; -webkit-user-select: none; user-select: none }
+.js .ui { display: flex }
+.ui.is-docked { bottom: max(env(safe-area-inset-bottom), calc((var(--bar, 0px) + env(safe-area-inset-bottom)) / 2 - var(--h, 40px) / 2)); background: rgba(22, 22, 24, .55) }
+.ui.is-idle:not(.is-docked) { opacity: 0; pointer-events: none }
+.ui button, .ui a { appearance: none; -webkit-appearance: none; border: 0; margin: 0; background: none; color: inherit; font: inherit; height: 32px; min-width: 36px; padding: 0; border-radius: 999px; display: inline-grid; place-items: center; cursor: pointer; text-decoration: none; -webkit-tap-highlight-color: transparent }
+.ui a.home, .ui a.pdf { padding: 0 10px; color: #b9b9be; letter-spacing: .01em }
+.ui a.home { padding-left: 12px }
+.ui button:hover, .ui a:hover { background: rgba(255, 255, 255, .12); color: #fff }
+.ui button:focus-visible, .ui a:focus-visible { outline: 2px solid #8ab4ff; outline-offset: 1px }
+.ui button[aria-disabled="true"] { opacity: .3; cursor: default; background: none }
+.ui button[hidden] { display: none }
+.ui svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none }
+.ui .sep { width: 1px; height: 18px; margin: 0 4px; background: rgba(255, 255, 255, .16) }
+.ui .count { min-width: 66px; padding: 0 4px; text-align: center; color: #d2d2d6; letter-spacing: .02em }
+@media (pointer: coarse) { .ui button, .ui a { height: 40px; min-width: 44px } .ui .count { min-width: 60px } }
+.hint { display: none; position: fixed; z-index: 10; left: 16px; right: 16px; top: max(14px, env(safe-area-inset-top)); text-align: center; color: #a9a9ae; font: 13px/1.35 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; pointer-events: none }
+@media (orientation: portrait) and (max-width: 600px) { .js .hint { display: block } }
+.sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap }
+.nj { display: none }
+html:not(.js) body { padding: 0 16px 24px; overflow-x: hidden }
+html:not(.js) .nj { display: block; max-width: 1920px; margin: 0 auto; padding: 16px 0 14px; color: #b4b4b9; font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif }
+html:not(.js) .nj a { color: #e6e6e8 }
+html:not(.js) .deck { display: block; max-width: 1920px; margin: 0 auto }
+html:not(.js) .slide { position: relative; width: 320px; aspect-ratio: 16 / 9; margin: 0 auto 16px; overflow: hidden; container-type: inline-size; background: #111 }
+html:not(.js) .slide > section { transform-origin: 0 0; transform: scale(.16667) }
+@media (min-width: 512px) { html:not(.js) .slide { width: 480px } html:not(.js) .slide > section { transform: scale(.25) } }
+@media (min-width: 992px) { html:not(.js) .slide { width: 960px } html:not(.js) .slide > section { transform: scale(.5) } }
+@media (min-width: 1472px) { html:not(.js) .slide { width: 1440px } html:not(.js) .slide > section { transform: scale(.75) } }
+@media (min-width: 1952px) { html:not(.js) .slide { width: 1920px } html:not(.js) .slide > section { transform: none } }
+@supports (scale: tan(atan2(1cqw, 1px))) {
+html:not(.js) .slide { width: 100% }
+html:not(.js) .slide > section { transform: scale(tan(atan2(100cqw, 1920px))) }
+}
+html:not(.js) .deck .slide, html:not(.js) .deck .slide * { animation: none !important; transition: none !important }
+@media (prefers-reduced-motion: reduce) {
+.deck .slide, .deck .slide * { animation: none !important; transition: none !important }
+.js .deck, .ui { transition: none }
+}
+@media print {
+@page { size: 1920px 1080px; margin: 0 }
+html, html.js, body, .js body { height: auto !important; overflow: visible !important; background: none !important; padding: 0 !important }
+.stage, .js .stage { position: static !important; overflow: visible !important }
+.deck, .js .deck { position: static !important; margin: 0 !important; transform: none !important; opacity: 1 !important; width: 1920px !important; height: auto !important; max-width: none !important }
+.slide, .js .slide, html:not(.js) .slide { display: block !important; position: relative !important; inset: auto !important; width: 1920px !important; height: 1080px !important; aspect-ratio: auto !important; margin: 0 !important; overflow: hidden !important; container-type: normal !important; break-after: page; page-break-after: always; opacity: 1 !important }
+.slide:last-child { break-after: auto; page-break-after: auto }
+.slide > section, html:not(.js) .slide > section { transform: none !important }
+.deck .slide, .deck .slide * { animation: none !important; transition: none !important }
+.ui, .hint, .nj, .sr { display: none !important }
+* { -webkit-print-color-adjust: exact; print-color-adjust: exact }
+}
